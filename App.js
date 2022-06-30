@@ -1,23 +1,11 @@
 import React from 'react';
-import {BottomTabNavigation} from './src/components/BottomTabNavigation/BottomTabNavigation';
-import HomeStack from './src/components/HomeScreen/HomeStack';
+import {SafeAreaView, Text} from 'react-native';
 
-// export default function App() {
-//   return (
-//     // <NavigationContainer>
-//     //   <BottomTabNavigation />
-//     // </NavigationContainer>
-//     <>
-//       <HomeStack />
-//     </>
-//   );
-// }
-
-function App() {
+function App(props) {
   return (
-    <>
-      <HomeStack />
-    </>
+    <SafeAreaView>
+      <Text>Hello</Text>
+    </SafeAreaView>
   );
 }
 
