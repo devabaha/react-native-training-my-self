@@ -4,8 +4,8 @@ import {
   StyleSheet,
   Image,
   Text,
-  SafeAreaView,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 const GetStarted = ({navigation}) => {
@@ -17,7 +17,7 @@ const GetStarted = ({navigation}) => {
   ]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.sliderBlock}>
         <Swiper loop autoplay containerStyle={styles.swiper}>
           {images.map((image, index) => {
@@ -49,7 +49,7 @@ const GetStarted = ({navigation}) => {
           <Text style={styles.buttonText}>Get started</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   buttonBlock: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 42,
+    marginBottom: 46,
   },
   buttonBackground: {
     backgroundColor: '#7279ec',

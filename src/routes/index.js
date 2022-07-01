@@ -1,5 +1,6 @@
 import Login from '../components/Login';
 import GetStarted from '../components/GetStarted';
+import Home from '../components/Home';
 
 const publicRoutes = [
   {
@@ -12,6 +13,13 @@ const publicRoutes = [
   {
     name: 'Login',
     component: Login,
+    options: {
+      headerShown: false,
+    },
+  },
+  {
+    name: 'Home',
+    component: Home,
     options: {
       headerShown: false,
     },
