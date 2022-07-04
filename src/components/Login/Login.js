@@ -1,65 +1,76 @@
+import {transform} from '@babel/core';
 import React, {useState, useRef} from 'react';
 import {
   View,
   Text,
-  TextInput,
   Image,
   SafeAreaView,
   StyleSheet,
-  Pressable,
+  TouchableOpacity,
+  TextInput,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
-import PhoneInput from 'react-native-phone-number-input';
+import CountryPicker from 'react-native-country-picker-modal';
 
 const Login = ({navigation}) => {
   const [phoneNumber, setPhoneNumber] = useState('');
-  const phoneInput = useRef(null);
-  const buttonPress = () => {
-    alert(phoneNumber);
-  };
+  const [countryCode, setCountryCode] = useState('VN');
+  const [callingCode, setCallingCode] = useState('');
 
-  const getGeoCurrentCountry = () => {
-    fetch('https://get.geojs.io/v1/ip/country.json')
-      .then(response => response.json())
-      .then(({country: cca2, country_3, ip, name}) => {
-        const currentCountry = countries.filter(
-          country => country.cca2 == cca2,
-        )[0];
-        this.handleSelectCountry(currentCountry);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  };
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <Image
-          source={require('../../assets/images/abaha.png')}
-          style={{width: 100, height: 100}}
-        />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View>
-          <Text>Xin chào!</Text>
-          <Text>Nhập số điện thoại để tiếp tục</Text>
-        </View>
-      </View>
+          <View style={styles.content}>
+            <Image
+              source={require('../../assets/images/abaha.png')}
+              style={styles.logo}
+            />
+            <View>
+              <Text style={styles.title}>Xin chào!</Text>
+              <Text style={styles.description}>
+                Nhập số điện thoại để tiếp tục
+              </Text>
+            </View>
+          </View>
 
-      <View style={styles.phoneContainer}>
-        <PhoneInput
-          ref={phoneInput}
-          defaultValue={phoneNumber}
-          defaultCode="VN"
-          withShadow
-          containerStyle={styles.phoneBlock}
-          textContainerStyle={styles.textInput}
-          onChangeFormattedText={text => {
-            setPhoneNumber(text);
-          }}
-        />
-        <Pressable
-          style={styles.button}
-          onPress={() => navigation.navigate('Home')}>
-          <Text style={styles.continueText}>Tiếp tục</Text>
-        </Pressable>
+          <View style={styles.phonePickerContainer}>
+            <CountryPicker
+              withFilter
+              countryCode={countryCode}
+              withAlphaFilter
+              withCallingCode
+              withCallingCodeButton
+              containerButtonStyle={styles.phonePickerBlock}
+              onSelect={country => {
+                setCountryCode(country.cca2);
+                setCallingCode(country.callingCode[0]);
+              }}
+            />
+
+            <TextInput
+              placeholder="8765 4321"
+              style={styles.phoneInput}
+              onChangeText={value => setPhoneNumber(value)}
+              value={phoneNumber}
+              keyboardType="numeric"
+            />
+          </View>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate('Launch')}>
+            <Text style={styles.textButton}>Tiếp tục</Text>
+          </TouchableOpacity>
+        </View>
+      </TouchableWithoutFeedback>
+
+      <View style={styles.policyBlock}>
+        <TouchableOpacity style={styles.policyButton}>
+          <Text style={styles.policyTitle}>Thoả thuận người dùng (EULA)</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -71,27 +82,63 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   content: {
-    paddingHorizontal: 16,
+    marginTop: 50,
+    paddingHorizontal: 20,
   },
-  phoneContainer: {
+  logo: {
+    width: 180,
+    height: 180,
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: '800',
+    marginVertical: 10,
+  },
+  description: {
+    fontSize: 20,
+    fontWeight: '200',
+  },
+  phonePickerContainer: {
+    marginVertical: 36,
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+  },
+  phonePickerBlock: {
+    borderRadius: 8,
+    backgroundColor: '#ccc',
+    paddingHorizontal: 8,
+    paddingVertical: 12,
+  },
+  phoneCallingCode: {
+    fontSize: 20,
+  },
+  phoneInput: {
+    fontSize: 28,
+    marginLeft: 12,
+    fontWeight: '800',
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 12,
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  phoneBlock: {
-    width: '75%',
-    height: 60,
+    backgroundColor: '#ccc',
   },
   button: {
-    marginTop: 30,
-    width: '75%',
-    padding: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'green',
   },
-  textInput: {
-    paddingVertical: 0,
+  textButton: {
+    fontSize: 24,
+  },
+  policyBlock: {
+    position: 'absolute',
+    justifyContent: 'center',
+    width: '100%',
+    alignItems: 'center',
+    bottom: 50,
+  },
+  policyButton: {},
+  policyTitle: {
+    fontSize: 18,
   },
 });
 
