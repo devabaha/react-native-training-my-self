@@ -38,12 +38,23 @@ const styles = StyleSheet.create({
   },
   navBarContainer: {
     paddingHorizontal: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  searchBlock: {},
-  searchInput: {},
+  searchBlock: {
+    flexDirection: 'row',
+    flex: 1,
+    marginRight: 12,
+    backgroundColor: '#dce1ed',
+    borderRadius: 2,
+  },
+  searchInput: {
+    flex: 1,
+  },
   avatar: {
-    width: 50,
-    height: 50,
+    width: 25,
+    height: 25,
+    backgroundColor: '#dce1ed',
     borderRadius: 999,
   },
 });
