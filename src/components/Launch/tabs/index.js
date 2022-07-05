@@ -5,8 +5,14 @@ import Explore from '../screens/Explore';
 import Posts from '../screens/Posts';
 import Chat from '../screens/Chat';
 import Notifications from '../screens/Notifications';
+import IconIonicons from 'react-native-vector-icons/Ionicons';
+import IconAntDesign from 'react-native-vector-icons/AntDesign';
+import IconEntypo from 'react-native-vector-icons/Entypo';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
-import IconFontAntDesign from 'react-native-vector-icons/AntDesign';
+
+const tabBarIconActiveStyle = focused => {
+  return {color: focused ? '#333d94' : '#ccc'};
+};
 
 const bottomTabs = [
   {
@@ -14,8 +20,13 @@ const bottomTabs = [
     component: Home,
     options: {
       headerShown: false,
-      tabBarIcon: () => {
-        return <IconFontAwesome name="home" style={styles.tabBarIconStyle} />;
+      tabBarIcon: ({focused}) => {
+        return (
+          <IconEntypo
+            name="home"
+            style={[styles.tabBarIconStyle, tabBarIconActiveStyle(focused)]}
+          />
+        );
       },
     },
   },
@@ -23,8 +34,13 @@ const bottomTabs = [
     name: 'Explore',
     component: Explore,
     options: {
-      tabBarIcon: () => {
-        return <IconFontAwesome name="folder" style={styles.tabBarIconStyle} />;
+      tabBarIcon: ({focused}) => {
+        return (
+          <IconFontAwesome
+            name="safari"
+            style={[styles.tabBarIconStyle, tabBarIconActiveStyle(focused)]}
+          />
+        );
       },
     },
   },
@@ -32,8 +48,13 @@ const bottomTabs = [
     name: 'Posts',
     component: Posts,
     options: {
-      tabBarIcon: () => {
-        return <IconFontAwesome name="plus" style={styles.tabBarIconStyle} />;
+      tabBarIcon: ({focused}) => {
+        return (
+          <IconAntDesign
+            name="plus"
+            style={[styles.tabBarIconStyle, tabBarIconActiveStyle(focused)]}
+          />
+        );
       },
     },
   },
@@ -41,9 +62,12 @@ const bottomTabs = [
     name: 'Chat',
     component: Chat,
     options: {
-      tabBarIcon: () => {
+      tabBarIcon: ({focused}) => {
         return (
-          <IconFontAwesome name="comment" style={styles.tabBarIconStyle} />
+          <IconIonicons
+            name="chatbubble-ellipses"
+            style={[styles.tabBarIconStyle, tabBarIconActiveStyle(focused)]}
+          />
         );
       },
     },
@@ -52,8 +76,13 @@ const bottomTabs = [
     name: 'Notifications',
     component: Notifications,
     options: {
-      tabBarIcon: () => {
-        return <IconFontAwesome name="bell" style={styles.tabBarIconStyle} />;
+      tabBarIcon: ({focused}) => {
+        return (
+          <IconFontAwesome
+            name="bell"
+            style={[styles.tabBarIconStyle, tabBarIconActiveStyle(focused)]}
+          />
+        );
       },
     },
   },
@@ -61,7 +90,7 @@ const bottomTabs = [
 
 const styles = StyleSheet.create({
   tabBarIconStyle: {
-    fontSize: 30,
+    fontSize: 28,
   },
 });
 
