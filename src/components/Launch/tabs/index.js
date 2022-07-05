@@ -90,7 +90,7 @@ const bottomTabs = [
 
 const styles = StyleSheet.create({
   tabBarIconStyle: {
-    fontSize: 28,
+    fontSize: 24,
   },
 });
 
