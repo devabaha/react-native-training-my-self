@@ -3,7 +3,7 @@ import {View, Text} from 'react-native';
 
 function News() {
   return (
-    <View  style={{ flex: 1, backgroundColor: '#ff4081' }}>
+    <View style={{flex: 1, backgroundColor: 'pink'}}>
       <Text>News</Text>
     </View>
   );
