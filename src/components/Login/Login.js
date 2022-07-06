@@ -8,11 +8,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
 import CountryPicker from 'react-native-country-picker-modal';
+import {navigationStrings} from '../../constants'
 
 const Login = ({navigation}) => {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -61,7 +61,7 @@ const Login = ({navigation}) => {
 
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate('Launch')}>
+            onPress={() => navigation.navigate(navigationStrings.FEED)}>
             <Text style={styles.textButton}>Tiếp tục</Text>
           </TouchableOpacity>
         </View>

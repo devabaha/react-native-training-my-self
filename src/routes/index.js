@@ -1,26 +1,26 @@
 import Login from '../components/Login';
 import GetStarted from '../components/GetStarted';
-import Home from '../components/Launch/screens/Home';
-import Launch from '../components/Launch';
+import Feed from '../components/Feed';
+import {navigationStrings} from '../constants';
 
 const publicRoutes = [
   {
-    name: 'GetStarted',
+    name: navigationStrings.GET_STARTED,
     component: GetStarted,
     options: {
       headerShown: false,
     },
   },
   {
-    name: 'Login',
+    name: navigationStrings.LOGIN,
     component: Login,
     options: {
       headerShown: false,
     },
   },
   {
-    name: 'Launch',
-    component: Launch,
+    name: navigationStrings.FEED,
+    component: Feed,
     options: {
       headerShown: false,
     },

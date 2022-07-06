@@ -5,9 +5,9 @@ import {
   Image,
   Text,
   TouchableOpacity,
-  StatusBar,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
+import {navigationStrings} from '../../constants'
 const GetStarted = ({navigation}) => {
   const [images] = useState([
     'https://images.pexels.com/photos/3183132/pexels-photo-3183132.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
@@ -45,7 +45,7 @@ const GetStarted = ({navigation}) => {
         <TouchableOpacity
           activeOpacity={0.6}
           style={styles.buttonBackground}
-          onPress={() => navigation.navigate('Login')}>
+          onPress={() => navigation.navigate(navigationStrings.LOGIN)}>
           <Text style={styles.buttonText}>Get started</Text>
         </TouchableOpacity>
       </View>

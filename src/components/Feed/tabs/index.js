@@ -9,14 +9,14 @@ import IconIonicons from 'react-native-vector-icons/Ionicons';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
-
+import {navigationStrings} from '../../../constants';
 const tabBarIconActiveStyle = focused => {
   return {color: focused ? '#333d94' : '#ccc'};
 };
 
 const bottomTabs = [
   {
-    name: 'Home',
+    name: navigationStrings.HOME,
     component: Home,
     options: {
       headerShown: false,
@@ -31,7 +31,7 @@ const bottomTabs = [
     },
   },
   {
-    name: 'Explore',
+    name: navigationStrings.EXPLORE,
     component: Explore,
     options: {
       tabBarIcon: ({focused}) => {
@@ -45,7 +45,7 @@ const bottomTabs = [
     },
   },
   {
-    name: 'Posts',
+    name: navigationStrings.POSTS,
     component: Posts,
     options: {
       tabBarIcon: ({focused}) => {
@@ -59,7 +59,7 @@ const bottomTabs = [
     },
   },
   {
-    name: 'Chat',
+    name: navigationStrings.CHAT,
     component: Chat,
     options: {
       tabBarIcon: ({focused}) => {
@@ -73,7 +73,7 @@ const bottomTabs = [
     },
   },
   {
-    name: 'Notifications',
+    name: navigationStrings.NOTIFICATIONS,
     component: Notifications,
     options: {
       tabBarIcon: ({focused}) => {

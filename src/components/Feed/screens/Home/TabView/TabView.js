@@ -2,6 +2,7 @@ import React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import News from '../News';
 import Popular from '../Popular';
+import {navigationStrings} from '../../../../../constants';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -11,7 +12,6 @@ function TabView() {
       screenOptions={{
         tabBarContentContainerStyle: {
           alignItems: 'center',
-          justifyContent: 'center',
           height: 36,
         },
         tabBarLabelStyle: {
@@ -22,8 +22,8 @@ function TabView() {
           left: '12.5%',
         },
       }}>
-      <Tab.Screen name="News" component={News} />
-      <Tab.Screen name="Popular" component={Popular} />
+      <Tab.Screen name={navigationStrings.NEWS} component={News} />
+      <Tab.Screen name={navigationStrings.POPULAR} component={Popular} />
     </Tab.Navigator>
   );
 }

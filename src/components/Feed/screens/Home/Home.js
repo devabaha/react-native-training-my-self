@@ -1,17 +1,24 @@
 import React from 'react';
-import {View, TextInput, StyleSheet, Image, SafeAreaView, TouchableOpacity} from 'react-native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {
+  StyleSheet,
+  View,
+  SafeAreaView,
+  Image,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconOcticons from 'react-native-vector-icons/Octicons';
-import {bottomTabs} from './tabs';
-const BottomTab = createBottomTabNavigator();
+import TabView from './TabView';
 
-function Launch({navigation}) {
+function Home() {
   return (
-    <>
-      <SafeAreaView style={styles.headerWrap}>
+    <SafeAreaView style={styles.container}>
+      <View>
         <View style={styles.headerContainer}>
-          <IconOcticons name="three-bars" style={styles.navBarIcon} />
+          <TouchableOpacity>
+            <IconOcticons name="three-bars" style={styles.navBarIcon} />
+          </TouchableOpacity>
           <View style={styles.searchBlock}>
             <IconAntDesign name="search1" style={styles.searchIcon} />
             <TextInput
@@ -21,8 +28,7 @@ function Launch({navigation}) {
               // value={phoneNumber}
             />
           </View>
-          <TouchableOpacity onPress={() => {
-          }}>
+          <TouchableOpacity onPress={() => {}}>
             <Image
               source={{
                 uri: 'https://i.redd.it/snoovatar/avatars/16f0557d-0d6d-4b6f-8b2b-ad1b305c8c39.png',
@@ -31,30 +37,15 @@ function Launch({navigation}) {
             />
           </TouchableOpacity>
         </View>
-      </SafeAreaView>
-
-      <BottomTab.Navigator
-        screenOptions={{
-          tabBarShowLabel: false,
-        }}
-        initialRouteName="Home">
-        {bottomTabs.map((bottomTab, index) => {
-          return (
-            <BottomTab.Screen
-              key={index}
-              name={bottomTab.name}
-              component={bottomTab.component}
-              options={bottomTab.options}
-            />
-          );
-        })}
-      </BottomTab.Navigator>
-    </>
+      </View>
+      <TabView />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  headerWrap: {
+  container: {
+    flex: 1,
     backgroundColor: '#fff',
   },
   headerContainer: {
@@ -89,4 +80,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Launch;
+export default Home;
