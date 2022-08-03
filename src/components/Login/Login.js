@@ -1,4 +1,3 @@
-import {transform} from '@babel/core';
 import React, {useState, useRef} from 'react';
 import {
   View,
@@ -12,7 +11,8 @@ import {
   Keyboard,
 } from 'react-native';
 import CountryPicker from 'react-native-country-picker-modal';
-import {navigationStrings} from '../../constants'
+import {navigationStrings} from '../../constants';
+import {config} from '../../util/config';
 
 const Login = ({navigation}) => {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -61,7 +61,7 @@ const Login = ({navigation}) => {
 
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate(navigationStrings.FEED)}>
+            onPress={() => navigation.replace(navigationStrings.FEED)}>
             <Text style={styles.textButton}>Tiếp tục</Text>
           </TouchableOpacity>
         </View>
@@ -79,7 +79,7 @@ const Login = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: config.color.white,
   },
   content: {
     marginTop: 50,
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   },
   phonePickerBlock: {
     borderRadius: 8,
-    backgroundColor: '#ccc',
+    backgroundColor: config.color.gray,
     paddingHorizontal: 8,
     paddingVertical: 12,
   },
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 12,
     flex: 1,
-    backgroundColor: '#ccc',
+    backgroundColor: config.color.gray,
   },
   button: {
     justifyContent: 'center',

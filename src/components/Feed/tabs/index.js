@@ -10,9 +10,22 @@ import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
 import {navigationStrings} from '../../../constants';
+import {config} from '../../../util/config';
 const tabBarIconActiveStyle = focused => {
-  return {color: focused ? '#333d94' : '#ccc'};
+  return {color: focused ? config.color.primary : config.color.gray};
 };
+
+const styles = StyleSheet.create({
+  tabBarIconStyle: {
+    fontSize: 24,
+  },
+  tabBarBadgeStyle: {
+    backgroundColor: config.color.notification,
+    color: config.color.white,
+    fontSize: 10,
+    marginLeft: 5,
+  },
+});
 
 const bottomTabs = [
   {
@@ -70,6 +83,8 @@ const bottomTabs = [
           />
         );
       },
+      tabBarBadge: '1',
+      tabBarBadgeStyle: styles.tabBarBadgeStyle,
     },
   },
   {
@@ -84,14 +99,10 @@ const bottomTabs = [
           />
         );
       },
+      tabBarBadge: '9',
+      tabBarBadgeStyle: styles.tabBarBadgeStyle,
     },
   },
 ];
-
-const styles = StyleSheet.create({
-  tabBarIconStyle: {
-    fontSize: 24,
-  },
-});
 
 export {bottomTabs};

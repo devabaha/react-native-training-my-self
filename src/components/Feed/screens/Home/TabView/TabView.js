@@ -3,7 +3,7 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import News from '../News';
 import Popular from '../Popular';
 import {navigationStrings} from '../../../../../constants';
-
+import {config} from '../../../../../util/config';
 const Tab = createMaterialTopTabNavigator();
 
 function TabView() {
@@ -20,6 +20,7 @@ function TabView() {
         tabBarIndicatorStyle: {
           width: '25%',
           left: '12.5%',
+          backgroundColor: config.color.primary,
         },
       }}>
       <Tab.Screen name={navigationStrings.NEWS} component={News} />

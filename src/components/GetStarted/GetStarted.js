@@ -10,6 +10,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import {navigationStrings} from '../../constants';
+import {config} from '../../util/config';
 
 const width = Dimensions.get('window').width;
 
@@ -38,6 +39,7 @@ const GetStarted = ({navigation}) => {
   ]);
 
   const [animatedScrollXValue] = useState(new Animated.Value(0));
+  const [animatedOpacityValue] = useState(new Animated.Value(0));
   const [currentIndex, setCurrentIndex] = useState(0);
   const viewConfigRef = useRef({viewAreaCoveragePercentThreshold: 50});
 
@@ -47,6 +49,13 @@ const GetStarted = ({navigation}) => {
         <Image source={{uri: item.url}} style={styles.image} />
       </View>
     );
+  }, []);
+
+  const onLoadingText = useCallback(() => {
+    Animated.timing(animatedOpacityValue, {
+      toValue: 1,
+      useNativeDriver: true,
+    }).start();
   }, []);
 
   const renderPagination = useCallback(() => {
@@ -139,9 +148,15 @@ const GetStarted = ({navigation}) => {
           }}>
           {images.map((item, i) => {
             return currentIndex === i ? (
-              <Text key={item.id} style={styles.descriptionText}>
+              <Animated.Text
+                key={item.id}
+                style={[
+                  styles.descriptionText,
+                  {opacity: animatedOpacityValue},
+                ]}
+                onTextLayout={onLoadingText}>
                 {item.title}
-              </Text>
+              </Animated.Text>
             ) : null;
           })}
         </View>
@@ -177,24 +192,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   dotPagination: {
-    width: 12,
-    height: 4,
+    width: 10,
+    height: 3,
     borderRadius: 4,
     marginHorizontal: 8,
-    backgroundColor: '#da85a0',
-    shadowColor: '#000',
+    backgroundColor: config.color.primary,
+    shadowColor: config.color.black,
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 2.25,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowOpacity: 0.161,
+    shadowRadius: 3,
 
     elevation: 5,
   },
   descriptionBlock: {
     position: 'absolute',
-    backgroundColor: '#fff',
+    backgroundColor: config.color.white,
     bottom: 0,
     height: '40%',
     width: '100%',
@@ -204,8 +219,8 @@ const styles = StyleSheet.create({
   },
   descriptionText: {
     textAlign: 'center',
-    color: '#da85a0',
-    fontSize: 28,
+    color: config.color.primary,
+    fontSize: 22,
     fontWeight: '700',
   },
   buttonBlock: {
@@ -213,25 +228,26 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
+    paddingBottom: 20,
   },
   buttonBackground: {
-    backgroundColor: '#da85a0',
-    paddingHorizontal: 30,
-    paddingVertical: 10,
-    borderRadius: 30,
-    shadowColor: '#000',
+    backgroundColor: config.color.primary,
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    borderRadius: 20,
+    shadowColor: config.color.black,
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 2.25,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowOpacity: 0.161,
+    shadowRadius: 3,
 
     elevation: 5,
   },
   buttonText: {
-    color: '#fff',
-    fontSize: 20,
+    color: config.color.white,
+    fontSize: 16,
     fontWeight: '600',
   },
 });
