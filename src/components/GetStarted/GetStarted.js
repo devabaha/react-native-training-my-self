@@ -1,53 +1,160 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback, useRef} from 'react';
 import {
   View,
   StyleSheet,
   Image,
   Text,
   TouchableOpacity,
+  Dimensions,
+  Animated,
+  SafeAreaView,
 } from 'react-native';
-import Swiper from 'react-native-swiper';
-import {navigationStrings} from '../../constants'
+import {navigationStrings} from '../../constants';
+
+const width = Dimensions.get('window').width;
+
 const GetStarted = ({navigation}) => {
   const [images] = useState([
-    'https://images.pexels.com/photos/3183132/pexels-photo-3183132.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    'https://images.pexels.com/photos/1242764/pexels-photo-1242764.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    'https://images.pexels.com/photos/8821913/pexels-photo-8821913.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    'https://images.pexels.com/photos/1408221/pexels-photo-1408221.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    {
+      id: 0,
+      title: 'The day you got away',
+      url: 'https://images.unsplash.com/photo-1628105541664-ae6ee8d249ec?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=627&q=80',
+    },
+    {
+      id: 1,
+      title: 'Nothing gonna change my love for you',
+      url: 'https://images.unsplash.com/photo-1630347619811-852e0eb83dd2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=627&q=80',
+    },
+    {
+      id: 2,
+      title: 'The day you got away',
+      url: 'https://images.unsplash.com/photo-1616578492900-ea5a8fc6c341?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=627&q=80',
+    },
+    {
+      id: 3,
+      title: 'Nothing gonna change my love for you',
+      url: 'https://images.unsplash.com/photo-1559603407-fa21f00a0afe?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80',
+    },
   ]);
+
+  const [animatedScrollXValue] = useState(new Animated.Value(0));
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const viewConfigRef = useRef({viewAreaCoveragePercentThreshold: 50});
+
+  const renderItem = useCallback(({item}) => {
+    return (
+      <View style={styles.slideWrapper}>
+        <Image source={{uri: item.url}} style={styles.image} />
+      </View>
+    );
+  }, []);
+
+  const renderPagination = useCallback(() => {
+    return (
+      <View style={styles.paginationWrapper}>
+        {images.map((_, i) => {
+          const inputRange = [(i - 1) * width, i * width, (i + 1) * width];
+          return (
+            <Animated.View
+              key={i}
+              style={[
+                styles.dotPagination,
+                {
+                  transform: [
+                    {
+                      scale: animatedScrollXValue.interpolate({
+                        inputRange,
+                        outputRange: [1, 1.5, 1],
+                        extrapolate: 'clamp',
+                      }),
+                    },
+                    {
+                      scaleX: animatedScrollXValue.interpolate({
+                        inputRange,
+                        outputRange: [1, 1.5, 1],
+                        extrapolate: 'clamp',
+                      }),
+                    },
+                  ],
+                },
+                {
+                  opacity: animatedScrollXValue.interpolate({
+                    inputRange,
+                    outputRange: [0.5, 1, 0.5],
+                    extrapolate: 'clamp',
+                  }),
+                },
+              ]}></Animated.View>
+          );
+        })}
+      </View>
+    );
+  }, []);
+
+  const onViewableItemsChanged = useCallback(({viewableItems}) => {
+    if (viewableItems.length >= 1) {
+      if (viewableItems[0].isViewable) {
+        setCurrentIndex(viewableItems[0].index);
+      }
+    }
+  }, []);
 
   return (
     <View style={styles.container}>
-      <View style={styles.sliderBlock}>
-        <Swiper loop autoplay containerStyle={styles.swiper}>
-          {images.map((image, index) => {
-            return (
-              <View key={index}>
-                <Image
-                  source={{uri: image}}
-                  style={{
-                    height: '100%',
-                    resizeMode: 'cover',
-                  }}
-                />
-              </View>
-            );
-          })}
-        </Swiper>
+      <View style={styles.slideBlock}>
+        <Animated.FlatList
+          horizontal
+          data={images}
+          pagingEnabled
+          decelerationRate="fast"
+          showsHorizontalScrollIndicator={false}
+          renderItem={renderItem}
+          keyExtractor={item => item.id.toString()}
+          viewabilityConfig={viewConfigRef.current}
+          onViewableItemsChanged={onViewableItemsChanged}
+          onScroll={Animated.event(
+            [
+              {
+                nativeEvent: {
+                  contentOffset: {x: animatedScrollXValue},
+                },
+              },
+            ],
+            {
+              listener: event => {
+                const offsetScrollX = event.nativeEvent.contentOffset.x;
+              },
+              useNativeDriver: true,
+            },
+          )}
+        />
       </View>
 
-      <View style={styles.titleBlock}>
-        <Text style={styles.title}>
-          Your gift will unlock doors that you prayed for God to open.
-        </Text>
-      </View>
-      <View style={styles.buttonBlock}>
-        <TouchableOpacity
-          activeOpacity={0.6}
-          style={styles.buttonBackground}
-          onPress={() => navigation.navigate(navigationStrings.LOGIN)}>
-          <Text style={styles.buttonText}>Get started</Text>
-        </TouchableOpacity>
+      <View style={styles.descriptionBlock}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          {images.map((item, i) => {
+            return currentIndex === i ? (
+              <Text key={item.id} style={styles.descriptionText}>
+                {item.title}
+              </Text>
+            ) : null;
+          })}
+        </View>
+
+        <SafeAreaView style={styles.buttonBlock}>
+          <View>{renderPagination()}</View>
+          <TouchableOpacity
+            activeOpacity={0.6}
+            style={styles.buttonBackground}
+            onPress={() => navigation.navigate(navigationStrings.LOGIN)}>
+            <Text style={styles.buttonText}>Start</Text>
+          </TouchableOpacity>
+        </SafeAreaView>
       </View>
     </View>
   );
@@ -56,39 +163,75 @@ const GetStarted = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#333d94',
   },
-  sliderBlock: {
-    height: '50%',
+  slideWrapper: {
+    width: width,
     alignItems: 'center',
-    backgroundColor: 'red',
-  },
-  titleBlock: {
-    paddingHorizontal: 90,
-    flex: 1,
     justifyContent: 'center',
   },
-  title: {
+  image: {
+    width: '100%',
+    height: '100%',
+  },
+  paginationWrapper: {
+    flexDirection: 'row',
+  },
+  dotPagination: {
+    width: 12,
+    height: 4,
+    borderRadius: 4,
+    marginHorizontal: 8,
+    backgroundColor: '#da85a0',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+  },
+  descriptionBlock: {
+    position: 'absolute',
+    backgroundColor: '#fff',
+    bottom: 0,
+    height: '40%',
+    width: '100%',
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
+    paddingHorizontal: 20,
+  },
+  descriptionText: {
     textAlign: 'center',
-    color: '#fff',
+    color: '#da85a0',
     fontSize: 28,
     fontWeight: '700',
-    lineHeight: 36,
   },
   buttonBlock: {
-    justifyContent: 'center',
+    width: '100%',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 46,
+    flexDirection: 'row',
   },
   buttonBackground: {
-    backgroundColor: '#7279ec',
-    paddingHorizontal: 42,
-    paddingVertical: 16,
-    borderRadius: 999,
+    backgroundColor: '#da85a0',
+    paddingHorizontal: 30,
+    paddingVertical: 10,
+    borderRadius: 30,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
   buttonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: '600',
   },
 });
