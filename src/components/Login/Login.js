@@ -105,9 +105,10 @@ const styles = StyleSheet.create({
   },
   phonePickerBlock: {
     borderRadius: 8,
+    flex: 1,
+    justifyContent: 'center',
     backgroundColor: config.color.gray,
     paddingHorizontal: 8,
-    paddingVertical: 12,
   },
   phoneCallingCode: {
     fontSize: 20,

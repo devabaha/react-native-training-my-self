@@ -86,13 +86,13 @@ const GetStarted = ({navigation}) => {
                     },
                   ],
                 },
-                // {
-                //   opacity: animatedScrollXValue.interpolate({
-                //     inputRange,
-                //     outputRange: [0.5, 1, 0.5],
-                //     extrapolate: 'clamp',
-                //   }),
-                // },
+                {
+                  opacity: animatedScrollXValue.interpolate({
+                    inputRange,
+                    outputRange: [0.5, 1, 0.5],
+                    extrapolate: 'clamp',
+                  }),
+                },
               ]}></Animated.View>
           );
         })}
